@@ -5,6 +5,12 @@ Community requested that multiple skeleton support and feed switching via OSC be
 
 Refer to [this post](http://troikatronix.com/community/#/discussion/2462/kinect-isadora-tutorials-now-available)
 
+##To Do
+- [ ] Multiple skeleton visualisation
+- [ ] Multiple skeleton transmission via OSC
+- [ ] OSC Receiver functions to switch video feeds
+
+
 >Dear Community,
 >
 >I'm happy to present to you a three-part series on working with the Kinect using 
