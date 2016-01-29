@@ -10,7 +10,7 @@ Refer to [this post](http://troikatronix.com/community/#/discussion/2462/kinect-
 - [ ] Multiple skeleton transmission via OSC
 - [ ] OSC Receiver functions to switch video feeds
 
-
+##Original Release Statement
 >Dear Community,
 >
 >I'm happy to present to you a three-part series on working with the Kinect using 
