@@ -5,13 +5,24 @@ Community requested that multiple skeleton support and feed switching via OSC be
 
 Refer to [this post](http://troikatronix.com/community/#/discussion/2462/kinect-isadora-tutorials-now-available)
 
-[Video Walthrough](https://www.youtube.com/watch?v=0HY5U6QSyhM) by [VJ_Skulpture](https://vjskulpture.wordpress.com)
+[Video Walkthrough](https://www.youtube.com/watch?v=0HY5U6QSyhM) by [VJ_Skulpture](https://vjskulpture.wordpress.com)
 
 ##To Do
 In no particular order...
 - [ ] Multiple skeleton visualisation
 - [ ] Multiple skeleton transmission via OSC
-- [ ] OSC Receiver functions to switch video feeds
+- [x] OSC Receiver functions to switch video feeds
+- [x] OSC Receiver functions to switch skeleton drawing on/off
+- [x] OSC Receiver functions to switch mirror mode on/off
+
+###WARNINGS!
+If you start the processing sketch with camera in RGB mode, you CANNOT USE IR MODE.
+If you start the processing sketch with camera in Depth mode, you CANNOT USE IR MODE.
+If you start the processing sketch with camera in User mode, you CANNOT USE IR MODE.
+
+If you start the processing sketch with camera in IR mode, you CANNOT USE RGB MODE.
+
+Also, please note & be aware of the open issue relating to [iso_callbacks & isochronous transfer errors](https://github.com/PatchworkBoy/isadora-kinect-tutorial-files/issues/1)...
 
 ##Original Release Statement
 >Dear Community,
