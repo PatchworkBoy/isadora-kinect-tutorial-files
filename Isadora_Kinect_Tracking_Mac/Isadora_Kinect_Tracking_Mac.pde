@@ -136,6 +136,8 @@ private void OpenNI_DrawCameraImage()
           if (blue == ((pix >> 8) & 0xff) && blue == ((pix >> 16) & 0xff))
           {
             cam.pixels[i] = black;
+          } else {
+            cam.pixels[i] = color(255,255,255); // set Ghost color here.
           }
         }
         cam.updatePixels();
