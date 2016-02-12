@@ -9,8 +9,10 @@ Refer to [this post](http://troikatronix.com/community/#/discussion/2462/kinect-
 
 ##To Do
 In no particular order...
-- [ ] Multiple skeleton visualisation
-- [ ] Multiple skeleton transmission via OSC
+- [ ] Create necessary receivers in Isadora for multiple skeletons
+- [ ] Merge changes from Mac Isadora file into Windows Isadora file
+- [x] Multiple skeleton visualisation
+- [x] Multiple skeleton transmission via OSC
 - [x] OSC Receiver functions to switch video feeds
 - [x] OSC Receiver functions to switch skeleton drawing on/off
 - [x] OSC Receiver functions to switch mirror mode on/off
