@@ -184,25 +184,25 @@ private void sendOSCSkeletonPosition(String inAddress, int inUserID, int inJoint
 
 private void sendOSCSkeleton(int inUserID)
 {
-    sendOSCSkeletonPosition("/head", inUserID, SimpleOpenNI.SKEL_HEAD);
-    sendOSCSkeletonPosition("/neck", inUserID, SimpleOpenNI.SKEL_NECK);
-    sendOSCSkeletonPosition("/torso", inUserID, SimpleOpenNI.SKEL_TORSO);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/head", inUserID, SimpleOpenNI.SKEL_HEAD);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/neck", inUserID, SimpleOpenNI.SKEL_NECK);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/torso", inUserID, SimpleOpenNI.SKEL_TORSO);
 
-    sendOSCSkeletonPosition("/left_shoulder", inUserID, SimpleOpenNI.SKEL_LEFT_SHOULDER);
-    sendOSCSkeletonPosition("/left_elbow", inUserID, SimpleOpenNI.SKEL_LEFT_ELBOW);
-    sendOSCSkeletonPosition("/left_hand", inUserID, SimpleOpenNI.SKEL_LEFT_HAND);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/left_shoulder", inUserID, SimpleOpenNI.SKEL_LEFT_SHOULDER);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/left_elbow", inUserID, SimpleOpenNI.SKEL_LEFT_ELBOW);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/left_hand", inUserID, SimpleOpenNI.SKEL_LEFT_HAND);
 
-    sendOSCSkeletonPosition("/right_shoulder", inUserID, SimpleOpenNI.SKEL_RIGHT_SHOULDER);
-    sendOSCSkeletonPosition("/right_elbow", inUserID, SimpleOpenNI.SKEL_RIGHT_ELBOW);
-    sendOSCSkeletonPosition("/right_hand", inUserID, SimpleOpenNI.SKEL_RIGHT_HAND);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/right_shoulder", inUserID, SimpleOpenNI.SKEL_RIGHT_SHOULDER);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/right_elbow", inUserID, SimpleOpenNI.SKEL_RIGHT_ELBOW);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/right_hand", inUserID, SimpleOpenNI.SKEL_RIGHT_HAND);
 
-    sendOSCSkeletonPosition("/left_hip", inUserID, SimpleOpenNI.SKEL_LEFT_HIP);
-    sendOSCSkeletonPosition("/left_knee", inUserID, SimpleOpenNI.SKEL_LEFT_KNEE);
-    sendOSCSkeletonPosition("/left_foot", inUserID, SimpleOpenNI.SKEL_LEFT_FOOT);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/left_hip", inUserID, SimpleOpenNI.SKEL_LEFT_HIP);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/left_knee", inUserID, SimpleOpenNI.SKEL_LEFT_KNEE);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/left_foot", inUserID, SimpleOpenNI.SKEL_LEFT_FOOT);
 
-    sendOSCSkeletonPosition("/right_hip", inUserID, SimpleOpenNI.SKEL_RIGHT_HIP);
-    sendOSCSkeletonPosition("/right_knee", inUserID, SimpleOpenNI.SKEL_RIGHT_KNEE);
-    sendOSCSkeletonPosition("/right_foot", inUserID, SimpleOpenNI.SKEL_RIGHT_FOOT);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/right_hip", inUserID, SimpleOpenNI.SKEL_RIGHT_HIP);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/right_knee", inUserID, SimpleOpenNI.SKEL_RIGHT_KNEE);
+    sendOSCSkeletonPosition("/skeleton/"+inUserId+"/right_foot", inUserID, SimpleOpenNI.SKEL_RIGHT_FOOT);
 }
 
 /* incoming osc message are forwarded to the oscEvent method. */
