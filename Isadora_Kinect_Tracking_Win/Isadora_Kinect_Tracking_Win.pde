@@ -12,6 +12,7 @@
 import SimpleOpenNI.*;
 
 PGraphics    canvas;
+PImage       cam = createImage(640, 480, RGB);
 color[]      userClr = new color[]
 {
     color(255, 0, 0), 
@@ -32,8 +33,11 @@ int kCameraImage_RGB = 1;                // rgb camera image
 int kCameraImage_IR = 2;                 // infra red camera image
 int kCameraImage_Depth = 3;              // depth without colored bodies of tracked bodies
 int kCameraImage_User = 4;               // depth image with colored bodies of tracked bodies
+int kCameraImage_Ghost = 5;
 
-int kCameraImageMode = kCameraImage_User; // << Set thie value to one of the kCamerImage constants above
+int kCameraImageMode = kCameraImage_IR; // << Set this value to one of the kCamerImage constants above
+                                         // for purposes of switching via OSC, we need to launch with 
+                                         // EITHER kCameraImage_RGB, or kCameraImage_IR
 
 // --------------------------------------------------------------------------------
 //  SKELETON DRAWING
@@ -72,10 +76,12 @@ private void setupOpenNI_CameraImageMode()
     switch (kCameraImageMode) {
     case 1: // kCameraImage_RGB:
         context.enableRGB();
+        kCameraInitMode = 1;
         println("enable RGB");
         break;
     case 2: // kCameraImage_IR:
         context.enableIR();
+        kCameraInitMode = 2;
         println("enable IR");
         break;
     case 3: // kCameraImage_Depth:
@@ -83,6 +89,10 @@ private void setupOpenNI_CameraImageMode()
         println("enable Depth");
         break;
     case 4: // kCameraImage_User:
+        context.enableUser();
+        println("enable User");
+        break;
+    case 5: // kCameraImage_User:
         context.enableUser();
         println("enable User");
         break;
@@ -107,6 +117,25 @@ private void OpenNI_DrawCameraImage()
     case 4: // kCameraImage_User:
         canvas.image(context.userImage(), 0, 0);
         // println("draw DEPTH");
+        break;
+    case 5: // Ghost
+        cam = context.userImage();
+        cam.loadPixels();
+        color black = color(0,0,0);
+        // filter out grey pixels (mixed in depth image)
+        for (int i=0; i<cam.pixels.length; i++)
+        { 
+          color pix = cam.pixels[i];
+          int blue = pix & 0xff;
+          if (blue == ((pix >> 8) & 0xff) && blue == ((pix >> 16) & 0xff))
+          {
+            cam.pixels[i] = black;
+          } else {
+            cam.pixels[i] = color(255,255,255); // set Ghost color here.
+          }
+        }
+        cam.updatePixels();
+        canvas.image(cam, 0, 0);
         break;
     }
 }
@@ -168,6 +197,72 @@ private void sendOSCSkeleton(int inUserID)
     sendOSCSkeletonPosition("/right_hip", inUserID, SimpleOpenNI.SKEL_RIGHT_HIP);
     sendOSCSkeletonPosition("/right_knee", inUserID, SimpleOpenNI.SKEL_RIGHT_KNEE);
     sendOSCSkeletonPosition("/right_foot", inUserID, SimpleOpenNI.SKEL_RIGHT_FOOT);
+}
+
+/* incoming osc message are forwarded to the oscEvent method. */
+void oscEvent(OscMessage theOscMessage) {
+    if(theOscMessage.checkAddrPattern("/isadora/kinect")==true){
+        float camera_mode = theOscMessage.get(0).floatValue();
+        float mirror_mode = theOscMessage.get(1).floatValue();
+        float skel_mode = theOscMessage.get(2).floatValue();
+        
+        switch(int(camera_mode)){
+            case 1: // kCameraImage_RGB:
+                if (kCameraInitMode == 6){
+                    kCameraInitMode = 1;
+                }
+                if (kCameraInitMode == 2){
+                    println("Cannot switch from IR to RGB, sorry");
+                } else {
+                    kCameraImageMode = kCameraImage_RGB;
+                    println("Enabled RGB - do not switch to IR!");
+                }
+                break;
+            case 2: // kCameraImage_IR:
+                if (kCameraInitMode == 6){
+                    kCameraInitMode = 2;
+                }
+                if (kCameraInitMode == 1){
+                    println("Cannot switch from RGB to IR, sorry");
+                } else {
+                    kCameraImageMode = kCameraImage_IR;
+                    println("Enabled IR - do not switch to RGB!");
+                }
+                break;
+            case 3: // kCameraImage_Depth:
+                kCameraImageMode = kCameraImage_Depth;
+                println("Enabled Depth");
+                break;
+            case 4: // kCameraImage_User:
+                kCameraImageMode = kCameraImage_User;
+                println("Enabled User");
+                break;
+            case 5: // kCameraImage_User:
+                kCameraImageMode = kCameraImage_Ghost;
+                println("Enabled Ghost");
+                break;
+        }
+        switch(int(mirror_mode)){
+            case 0:
+                context.setMirror(false);
+                println("Mirror mode (for RGB/IR feeds) disabled");
+                break;
+            case 1:
+                context.setMirror(true);
+                println("Mirror mode (for RGB/IR feeds) enabled");
+                break;
+        }
+        switch(int(skel_mode)){
+            case 0:
+                kDrawSkeleton = false;
+                println("Skeleton drawing is disabled");
+                break;
+            case 1:
+                kDrawSkeleton = true;
+                println("Skeleton drawing is enabled");
+                break;
+        }
+    }
 }
 
 // --------------------------------------------------------------------------------
@@ -270,7 +365,7 @@ void draw()
 
                 drawSkeleton(userList[i]);
 
-                if (userList.length == 1) {
+                if (userList.length !== 0) {
                     sendOSCSkeleton(userList[i]);
                 }
             }      
@@ -384,6 +479,34 @@ void keyPressed()
         context.setMirror(!context.mirror());
         println("Switch Mirroring");
         break;
+    case '1':
+        kCameraImageMode = kCameraImage_RGB;
+        println("Enabled RGB - do not switch to IR!");
+        break;
+    case '2': // kCameraImage_IR:
+        kCameraImageMode = kCameraImage_IR;
+        println("Enabled IR - do not switch to RGB!");
+        break;
+    case '3': // kCameraImage_Depth:
+        kCameraImageMode = kCameraImage_Depth;
+        println("Enabled Depth");
+        break;
+    case '4': // kCameraImage_User:
+        kCameraImageMode = kCameraImage_User;
+        println("Enabled User");
+        break;
+    case '5': // kCameraImage_User:
+        kCameraImageMode = kCameraImage_Ghost;
+        println("Enabled Ghost");
+        break;
+    case 's': // kDrawSkeleton
+        if (kDrawSkeleton == true){
+          kDrawSkeleton = false;
+          println("Disabled Skeleton");
+        } else {
+          kDrawSkeleton = true;
+          println("Enabled Skeleton");
+        }
     }
 }  
 

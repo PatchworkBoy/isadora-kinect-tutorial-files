@@ -366,7 +366,7 @@ void draw()
 
                 drawSkeleton(userList[i]);
 
-                if (userList.length == 1) {
+                if (userList.length !== 0) {
                     sendOSCSkeleton(userList[i]);
                 }
             }      
