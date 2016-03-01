@@ -40,6 +40,12 @@ int kCameraImageMode = kCameraImage_IR; // << Set this value to one of the kCame
                                          // EITHER kCameraImage_RGB, or kCameraImage_IR
 
 // --------------------------------------------------------------------------------
+//  SAFE CAMERA SWITCHING
+// --------------------------------------------------------------------------------
+int kCameraInitMode = 6;                      // permanently remembers what kCameraImageMode was set on launch.
+
+
+// --------------------------------------------------------------------------------
 //  SKELETON DRAWING
 // --------------------------------------------------------------------------------
 boolean kDrawSkeleton = true; // << set to true to draw skeleton, false to not draw the skeleton
